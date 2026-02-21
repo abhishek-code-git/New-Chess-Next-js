@@ -6,13 +6,14 @@ export const dynamic = "force-dynamic";
 export default async function Page({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
   const supabase = getServerSupabase();
   const { data: tournament } = await supabase
     .from("tournaments")
     .select("*")
-    .eq("id", params.id)
+    .eq("id", id)
     .maybeSingle();
 
   const { data: registrations } = await supabase
@@ -23,13 +24,13 @@ export default async function Page({
         profiles:profile_id (username, avatar_url)
       `
     )
-    .eq("tournament_id", params.id)
+    .eq("tournament_id", id)
     .order("points", { ascending: false });
 
   const { data: rounds } = await supabase
     .from("tournament_rounds")
     .select("*")
-    .eq("tournament_id", params.id)
+    .eq("tournament_id", id)
     .order("round_number", { ascending: true });
 
   return (
