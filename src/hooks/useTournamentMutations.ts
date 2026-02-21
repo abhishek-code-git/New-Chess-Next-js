@@ -381,7 +381,7 @@ export function useAdvanceRound() {
       // Get standings for Swiss pairing
       const { data: registrations, error: regError } = await supabase
         .from('tournament_registrations')
-        .select('id, player_number, points, wins')
+        .select('id, player_number, points, wins, games_played')
         .eq('tournament_id', tournamentId)
         .eq('is_disqualified', false)
         .order('points', { ascending: false });
