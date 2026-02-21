@@ -319,7 +319,7 @@ const Index = () => {
                     <Star key={i} className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-primary text-primary" />
                   ))}
                 </div>
-                <p className="text-muted-foreground mb-3 sm:mb-4 text-sm sm:text-base">"{text}"</p>
+                <p className="text-muted-foreground mb-3 sm:mb-4 text-sm sm:text-base">&quot;{text}&quot;</p>
                 <div className="flex items-center gap-2 sm:gap-3">
                   <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
                     <span className="font-heading text-primary text-sm sm:text-base">{name[0]}</span>

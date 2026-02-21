@@ -151,7 +151,7 @@ const PlayLocal: React.FC = () => {
                 "inline-block px-3 py-1 rounded-full text-sm font-medium",
                 game.turn() === 'w' ? "bg-white text-black" : "bg-gray-800 text-white"
               )}>
-                {game.turn() === 'w' ? 'White' : 'Black'}'s turn
+                {game.turn() === 'w' ? 'White' : 'Black'}&apos;s turn
               </span>
             </div>
             <ChessBoard

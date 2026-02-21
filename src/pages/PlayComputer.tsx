@@ -308,10 +308,10 @@ const PlayComputer: React.FC = () => {
             <AlertDialogHeader>
               <AlertDialogTitle className="flex items-center gap-2 text-amber-500 text-base sm:text-lg">
                 <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
-                Points Won't Be Saved
+                Points Won&apos;t Be Saved
               </AlertDialogTitle>
               <AlertDialogDescription className="text-muted-foreground text-sm sm:text-base">
-                You're not logged in. Any points you earn from this game will <strong>not be saved</strong> to your account.
+                You&apos;re not logged in. Any points you earn from this game will <strong>not be saved</strong> to your account.
                 <br /><br />
                 Would you like to sign in first to track your progress and earn rewards?
               </AlertDialogDescription>
