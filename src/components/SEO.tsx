@@ -17,6 +17,9 @@ const SEO: React.FC<SEOProps> = ({
   type = 'website',
   image = 'https://chessmasterss.vercel.app/og-image.png'
 }) => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
   const fullTitle = title.includes('ChessMaster') ? title : `${title} | ChessMaster`;
   
   // Target keywords for SEO
