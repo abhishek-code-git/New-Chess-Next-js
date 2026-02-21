@@ -529,7 +529,7 @@ function RoundDetails({ round }: { round: TournamentRound }) {
               <div className="flex items-center gap-2 flex-1">
                 <span className="text-muted-foreground">Board {match.board_number}</span>
                 <span className="font-medium">
-                  {(match.white_player as any)?.profiles?.username || 'BYE'}
+                  {match.white_player?.profiles?.username || 'BYE'}
                 </span>
               </div>
               <div className="px-4 font-bold">
@@ -537,7 +537,7 @@ function RoundDetails({ round }: { round: TournamentRound }) {
               </div>
               <div className="flex items-center gap-2 flex-1 justify-end">
                 <span className="font-medium">
-                  {(match.black_player as any)?.profiles?.username || 'BYE'}
+                  {match.black_player?.profiles?.username || 'BYE'}
                 </span>
               </div>
             </div>

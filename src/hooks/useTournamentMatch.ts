@@ -3,7 +3,7 @@ import { Chess, type Move } from "chess.js";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import type { Tournament, TournamentMatch } from "@/types/tournament";
+import type { Tournament, TournamentMatch, TournamentRegistration } from "@/types/tournament";
 
 interface UseTournamentMatchOptions {
   match: TournamentMatch;
@@ -23,8 +23,8 @@ export function useTournamentMatch({ match, tournament, myRegistrationId, scorin
   const isWhite = match.white_player_id === myRegistrationId;
   const playerColor: 'w' | 'b' = isWhite ? 'w' : 'b';
   const opponentName = isWhite
-    ? (match.black_player as any)?.profiles?.username || 'Opponent'
-    : (match.white_player as any)?.profiles?.username || 'Opponent';
+    ? match.black_player?.profiles?.username || 'Opponent'
+    : match.white_player?.profiles?.username || 'Opponent';
 
   // Load game state from PGN
   useEffect(() => {
@@ -50,7 +50,7 @@ export function useTournamentMatch({ match, tournament, myRegistrationId, scorin
         table: 'tournament_matches',
         filter: `id=eq.${match.id}`,
       }, (payload) => {
-        const updated = payload.new as any;
+        const updated = payload.new as TournamentMatch;
         if (updated.pgn) {
           const newGame = new Chess();
           try {
@@ -210,8 +210,8 @@ export function useTournamentMatch({ match, tournament, myRegistrationId, scorin
     const isDraw = result === '1/2-1/2';
 
     if (match.white_player_id) {
-      const whiteReg = match.white_player as any;
-      const updateData: any = {
+      const whiteReg = match.white_player as TournamentRegistration | undefined;
+      const updateData: Partial<TournamentRegistration> = {
         points: (whiteReg?.points || 0) + (whiteWon ? 1 : isDraw ? 0.5 : 0),
         games_played: (whiteReg?.games_played || 0) + 1,
         wins: (whiteReg?.wins || 0) + (whiteWon ? 1 : 0),
@@ -234,8 +234,8 @@ export function useTournamentMatch({ match, tournament, myRegistrationId, scorin
     }
 
     if (match.black_player_id) {
-      const blackReg = match.black_player as any;
-      const updateData: any = {
+      const blackReg = match.black_player as TournamentRegistration | undefined;
+      const updateData: Partial<TournamentRegistration> = {
         points: (blackReg?.points || 0) + (blackWon ? 1 : isDraw ? 0.5 : 0),
         games_played: (blackReg?.games_played || 0) + 1,
         wins: (blackReg?.wins || 0) + (blackWon ? 1 : 0),
@@ -376,7 +376,7 @@ export function useTournamentMatch({ match, tournament, myRegistrationId, scorin
             tournament_id: tournament.id,
             user_id: player.user_id,
             profile_id: player.profile_id,
-            player_name: (player as any).profiles?.username || 'Unknown Player',
+            player_name: player.profiles?.username || 'Unknown Player',
             tournament_name: tournament.name,
             rank,
             certificate_type: certType,

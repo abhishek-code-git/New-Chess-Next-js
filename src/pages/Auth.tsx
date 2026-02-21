@@ -31,7 +31,7 @@ const Auth: React.FC = () => {
     if (user) {
       router.push('/dashboard');
     }
-  }, [user, navigate]);
+  }, [user, router]);
 
   const validate = (): boolean => {
     const newErrors: Record<string, string> = {};

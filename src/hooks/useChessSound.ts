@@ -1,11 +1,14 @@
-import { useCallback, useRef, useEffect } from 'react';
+import { useCallback } from 'react';
 
 // Create audio context lazily
 let audioContext: AudioContext | null = null;
 
 const getAudioContext = () => {
   if (!audioContext) {
-    audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const AudioCtx =
+      window.AudioContext ||
+      (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    audioContext = new AudioCtx();
   }
   return audioContext;
 };

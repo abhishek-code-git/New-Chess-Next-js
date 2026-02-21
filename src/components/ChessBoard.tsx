@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { Chess, Square, Move } from 'chess.js';
+import { Chess, Square, Move, type Piece } from 'chess.js';
 import { PIECE_COMPONENTS, getPieceCode } from '@/lib/chess-pieces';
 import { cn } from '@/lib/utils';
 import { useChessSound } from '@/hooks/useChessSound';
@@ -31,7 +31,7 @@ const ChessBoard: React.FC<ChessBoardProps> = ({
   const [selectedSquare, setSelectedSquare] = useState<Square | null>(null);
   const [legalMoves, setLegalMoves] = useState<Square[]>([]);
   const [lastMove, setLastMove] = useState<{ from: Square; to: Square } | null>(null);
-  const [animating, setAnimating] = useState<{ from: Square; to: Square; piece: any } | null>(null);
+  const [animating, setAnimating] = useState<{ from: Square; to: Square; piece: Piece } | null>(null);
   const [animationType, setAnimationType] = useState<'move' | 'capture'>('move');
   const { playSound } = useChessSound();
   const boardRef = useRef<HTMLDivElement>(null);

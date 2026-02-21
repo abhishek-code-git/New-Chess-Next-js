@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
-import type { CreateTournamentData, TournamentType } from "@/types/tournament";
+import type { CreateTournamentData, TournamentRegistration, TournamentType } from "@/types/tournament";
 
 export function useRegisterForTournament() {
   const queryClient = useQueryClient();
@@ -465,9 +465,9 @@ export function useAdvanceRound() {
           
           await supabase
             .from('tournament_registrations')
-            .update({ 
+            .update({
               points: (player.points || 0) + 1,
-              games_played: (player as any).games_played + 1,
+              games_played: (player.games_played || 0) + 1,
               wins: (player.wins || 0) + 1,
             })
             .eq('id', player.id);
@@ -604,7 +604,9 @@ export function useGenerateCertificates() {
       const topN = tournament.certificate_top_n || 3;
       
       for (let i = 0; i < standings.length; i++) {
-        const player = standings[i];
+        const player = standings[i] as TournamentRegistration & {
+          profiles?: { username: string | null };
+        };
         const rank = i + 1;
         
         let shouldGenerate = false;
@@ -627,7 +629,7 @@ export function useGenerateCertificates() {
             tournament_id: tournamentId,
             user_id: player.user_id,
             profile_id: player.profile_id,
-            player_name: (player as any).profiles?.username || 'Unknown Player',
+            player_name: player.profiles?.username || 'Unknown Player',
             tournament_name: tournament.name,
             rank,
             certificate_type: certType,

@@ -25,6 +25,14 @@ import { useAuth } from '@/hooks/useAuth';
 import { useProfile } from '@/hooks/useProfile';
 import { supabase } from '@/integrations/supabase/client';
 
+interface UserCertificate {
+  id: string;
+  certificate_id: string;
+  tournament_name: string;
+  rank: number | null;
+  certificate_type: string;
+}
+
 const Dashboard: React.FC = () => {
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
@@ -191,7 +199,7 @@ const Dashboard: React.FC = () => {
                 <h2 className="font-heading text-lg sm:text-xl">My Certificates</h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {myCertificates.map((cert: any) => (
+                {myCertificates.map((cert: UserCertificate) => (
                   <Link 
                     key={cert.id} 
                     href={`/verify/${cert.certificate_id}`}

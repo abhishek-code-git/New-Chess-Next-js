@@ -72,7 +72,7 @@ const PlayComputer: React.FC = () => {
   const startGame = () => {
     setShowLoginWarning(false);
     const newGame = new Chess();
-    let color: 'w' | 'b' = selectedColor === 'random' 
+    const color: 'w' | 'b' = selectedColor === 'random' 
       ? (Math.random() > 0.5 ? 'w' : 'b') 
       : selectedColor;
     
