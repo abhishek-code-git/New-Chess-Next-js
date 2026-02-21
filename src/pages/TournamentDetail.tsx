@@ -25,21 +25,35 @@ import {
   usePlayerPoints,
 } from "@/hooks/useTournament";
 import { useRegisterForTournament } from "@/hooks/useTournamentMutations";
-import type { TournamentRound } from "@/types/tournament";
+import type { Tournament, TournamentRegistration, TournamentRound } from "@/types/tournament";
 import { useAuth } from "@/hooks/useAuth";
 import TournamentMatchView from "@/components/TournamentMatchView";
 import { ArenaLobby } from "@/components/tournament/ArenaLobby";
 import { ArenaMatchView } from "@/components/tournament/ArenaMatchView";
 import { TournamentCountdown } from "@/components/tournament/TournamentCountdown";
 
-export default function TournamentDetail() {
+export default function TournamentDetail({
+  initialTournament,
+  initialRegistrations,
+  initialRounds,
+}: {
+  initialTournament?: Tournament | null;
+  initialRegistrations?: TournamentRegistration[];
+  initialRounds?: TournamentRound[];
+}) {
   const params = useParams();
   const id = Array.isArray(params?.id) ? params.id[0] : params?.id;
   const { user } = useAuth();
   
-  const { data: tournament, isLoading: tournamentLoading } = useTournament(id);
-  const { data: registrations, isLoading: regsLoading } = useTournamentRegistrations(id);
-  const { data: rounds } = useTournamentRounds(id);
+  const { data: tournament, isLoading: tournamentLoading } = useTournament(id, {
+    initialData: initialTournament ?? null,
+  });
+  const { data: registrations, isLoading: regsLoading } = useTournamentRegistrations(id, {
+    initialData: initialRegistrations ?? [],
+  });
+  const { data: rounds } = useTournamentRounds(id, {
+    initialData: initialRounds ?? [],
+  });
   const { data: myRegistration } = useMyRegistration(id);
   const { data: myCurrentMatch, refetch: refetchMatch } = useMyCurrentMatch(id);
   const { data: playerPoints } = usePlayerPoints();

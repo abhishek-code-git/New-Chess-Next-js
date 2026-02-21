@@ -9,7 +9,10 @@ import type {
   TournamentStatus 
 } from "@/types/tournament";
 
-export function useTournaments(status?: TournamentStatus | TournamentStatus[]) {
+export function useTournaments(
+  status?: TournamentStatus | TournamentStatus[],
+  options?: { initialData?: Tournament[]; enabled?: boolean },
+) {
   return useQuery({
     queryKey: ['tournaments', status],
     queryFn: async () => {
@@ -30,10 +33,15 @@ export function useTournaments(status?: TournamentStatus | TournamentStatus[]) {
       if (error) throw error;
       return data as Tournament[];
     },
+    initialData: options?.initialData,
+    enabled: options?.enabled ?? true,
   });
 }
 
-export function useTournament(id: string | undefined) {
+export function useTournament(
+  id: string | undefined,
+  options?: { initialData?: Tournament | null; enabled?: boolean },
+) {
   return useQuery({
     queryKey: ['tournament', id],
     queryFn: async () => {
@@ -46,11 +54,15 @@ export function useTournament(id: string | undefined) {
       if (error) throw error;
       return data as Tournament | null;
     },
-    enabled: !!id,
+    initialData: options?.initialData,
+    enabled: (options?.enabled ?? true) && !!id,
   });
 }
 
-export function useTournamentRegistrations(tournamentId: string | undefined) {
+export function useTournamentRegistrations(
+  tournamentId: string | undefined,
+  options?: { initialData?: TournamentRegistration[]; enabled?: boolean },
+) {
   return useQuery({
     queryKey: ['tournament-registrations', tournamentId],
     queryFn: async () => {
@@ -66,11 +78,15 @@ export function useTournamentRegistrations(tournamentId: string | undefined) {
       if (error) throw error;
       return data as TournamentRegistration[];
     },
-    enabled: !!tournamentId,
+    initialData: options?.initialData,
+    enabled: (options?.enabled ?? true) && !!tournamentId,
   });
 }
 
-export function useTournamentRounds(tournamentId: string | undefined) {
+export function useTournamentRounds(
+  tournamentId: string | undefined,
+  options?: { initialData?: TournamentRound[]; enabled?: boolean },
+) {
   return useQuery({
     queryKey: ['tournament-rounds', tournamentId],
     queryFn: async () => {
@@ -83,11 +99,15 @@ export function useTournamentRounds(tournamentId: string | undefined) {
       if (error) throw error;
       return data as TournamentRound[];
     },
-    enabled: !!tournamentId,
+    initialData: options?.initialData,
+    enabled: (options?.enabled ?? true) && !!tournamentId,
   });
 }
 
-export function useTournamentMatches(roundId: string | undefined) {
+export function useTournamentMatches(
+  roundId: string | undefined,
+  options?: { initialData?: TournamentMatch[]; enabled?: boolean },
+) {
   return useQuery({
     queryKey: ['tournament-matches', roundId],
     queryFn: async () => {
@@ -110,7 +130,8 @@ export function useTournamentMatches(roundId: string | undefined) {
       if (error) throw error;
       return data as TournamentMatch[];
     },
-    enabled: !!roundId,
+    initialData: options?.initialData,
+    enabled: (options?.enabled ?? true) && !!roundId,
   });
 }
 

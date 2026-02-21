@@ -11,7 +11,7 @@ import { Trophy, Crown, Medal } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 
-interface LeaderboardEntry {
+export interface LeaderboardEntry {
   id: string;
   username: string | null;
   total_games: number;
@@ -21,7 +21,9 @@ interface LeaderboardEntry {
   rank: number;
 }
 
-const Leaderboard: React.FC = () => {
+const Leaderboard: React.FC<{ initialLeaderboard?: LeaderboardEntry[] }> = ({
+  initialLeaderboard,
+}) => {
   const { data: leaderboard, isLoading } = useQuery({
     queryKey: ['leaderboard'],
     queryFn: async () => {
@@ -42,6 +44,7 @@ const Leaderboard: React.FC = () => {
           : 0
       })) as LeaderboardEntry[];
     },
+    initialData: initialLeaderboard,
   });
 
   const getRankIcon = (rank: number) => {

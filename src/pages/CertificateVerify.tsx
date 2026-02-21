@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Skeleton } from "@/components/ui/skeleton";
 import CertificateCard from "@/components/CertificateCard";
 
-interface Certificate {
+export interface Certificate {
   id: string;
   certificate_id: string;
   player_name: string;
@@ -21,7 +21,11 @@ interface Certificate {
   issued_at: string;
 }
 
-export default function CertificateVerify() {
+export default function CertificateVerify({
+  initialCertificate,
+}: {
+  initialCertificate?: Certificate | null;
+}) {
   const params = useParams();
   const certificateId = Array.isArray(params?.certificateId)
     ? params.certificateId[0]
@@ -42,6 +46,7 @@ export default function CertificateVerify() {
       return data as Certificate | null;
     },
     enabled: !!certificateId,
+    initialData: initialCertificate,
   });
 
   return (

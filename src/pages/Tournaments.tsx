@@ -131,7 +131,11 @@ const TournamentSkeleton = () => (
   </Card>
 );
 
-export default function Tournaments() {
+export default function Tournaments({
+  initialTournaments,
+}: {
+  initialTournaments?: Tournament[];
+}) {
   const [activeTab, setActiveTab] = useState<string>("upcoming");
   const { user } = useAuth();
   useAutoStartTournaments();
@@ -142,7 +146,9 @@ export default function Tournaments() {
     all: ['upcoming', 'active', 'completed', 'paused'],
   };
 
-  const { data: tournaments, isLoading } = useTournaments(statusMap[activeTab]);
+  const { data: tournaments, isLoading } = useTournaments(statusMap[activeTab], {
+    initialData: activeTab === "upcoming" ? initialTournaments : undefined,
+  });
 
   return (
     <div className="min-h-screen bg-background">
