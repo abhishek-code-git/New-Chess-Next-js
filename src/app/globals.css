@@ -1,0 +1,372 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+@tailwind base;
+
+/* Chess piece animations */
+@keyframes pieceSlide {
+  0% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pieceMove {
+  0% {
+    transform: translateY(-5px) scale(1.15);
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.4));
+  }
+  50% {
+    transform: translateY(-8px) scale(1.2);
+    filter: drop-shadow(0 12px 20px rgba(0,0,0,0.5));
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+  }
+}
+
+@keyframes pieceBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-3px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  75% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes pieceCapture {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3) rotate(10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Chess-themed elegant dark wood palette */
+    --background: 20 14% 8%;
+    --foreground: 36 33% 90%;
+
+    --card: 20 18% 12%;
+    --card-foreground: 36 33% 90%;
+
+    --popover: 20 18% 10%;
+    --popover-foreground: 36 33% 90%;
+
+    --primary: 38 72% 50%;
+    --primary-foreground: 20 14% 8%;
+
+    --secondary: 25 25% 18%;
+    --secondary-foreground: 36 33% 85%;
+
+    --muted: 20 15% 15%;
+    --muted-foreground: 36 15% 55%;
+
+    --accent: 38 60% 45%;
+    --accent-foreground: 20 14% 8%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 25 20% 22%;
+    --input: 25 20% 18%;
+    --ring: 38 72% 50%;
+
+    --radius: 0.75rem;
+
+    /* Chess specific colors */
+    --chess-light: 36 36% 85%;
+    --chess-dark: 25 35% 28%;
+    --chess-highlight: 120 40% 45%;
+    --chess-selected: 45 90% 55%;
+    --chess-check: 0 70% 50%;
+    
+    /* Gold gradients for rewards */
+    --gold-start: 45 85% 55%;
+    --gold-end: 35 75% 40%;
+    
+    /* Wood texture colors */
+    --wood-light: 28 35% 45%;
+    --wood-dark: 20 30% 20%;
+
+    --sidebar-background: 20 18% 10%;
+    --sidebar-foreground: 36 33% 90%;
+    --sidebar-primary: 38 72% 50%;
+    --sidebar-primary-foreground: 20 14% 8%;
+    --sidebar-accent: 25 25% 18%;
+    --sidebar-accent-foreground: 36 33% 85%;
+    --sidebar-border: 25 20% 22%;
+    --sidebar-ring: 38 72% 50%;
+  }
+
+  .dark {
+    --background: 20 14% 8%;
+    --foreground: 36 33% 90%;
+    --card: 20 18% 12%;
+    --card-foreground: 36 33% 90%;
+    --popover: 20 18% 10%;
+    --popover-foreground: 36 33% 90%;
+    --primary: 38 72% 50%;
+    --primary-foreground: 20 14% 8%;
+    --secondary: 25 25% 18%;
+    --secondary-foreground: 36 33% 85%;
+    --muted: 20 15% 15%;
+    --muted-foreground: 36 15% 55%;
+    --accent: 38 60% 45%;
+    --accent-foreground: 20 14% 8%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 25 20% 22%;
+    --input: 25 20% 18%;
+    --ring: 38 72% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+  
+  /* Prevent horizontal scroll on mobile */
+  html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  .chess-square-light {
+    @apply bg-chess-light;
+  }
+  
+  .chess-square-dark {
+    @apply bg-chess-dark;
+  }
+  
+  .chess-piece {
+    @apply cursor-grab active:cursor-grabbing;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), filter 0.2s ease;
+  }
+  
+  .chess-piece:hover {
+    @apply scale-110;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.4));
+  }
+  
+  .chess-piece.moving {
+    animation: pieceMove 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .chess-piece.capturing {
+    animation: pieceCapture 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .chess-piece.bounce {
+    animation: pieceBounce 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .gold-gradient {
+    background: linear-gradient(135deg, hsl(var(--gold-start)) 0%, hsl(var(--gold-end)) 100%);
+  }
+  
+  .wood-gradient {
+    background: linear-gradient(180deg, hsl(var(--wood-light)) 0%, hsl(var(--wood-dark)) 100%);
+  }
+  
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-md border border-border/50;
+  }
+  
+  .glow-gold {
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.3);
+  }
+  
+  .text-gradient-gold {
+    background: linear-gradient(135deg, hsl(var(--gold-start)) 0%, hsl(var(--primary)) 50%, hsl(var(--gold-end)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Mobile-first responsive container */
+  .container-mobile {
+    @apply w-full px-3 sm:px-4 md:px-6 lg:px-8;
+    max-width: 100%;
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .animate-pulse-gold {
+    animation: pulse-gold 2s ease-in-out infinite;
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.5s ease-out forwards;
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out forwards;
+  }
+  
+  .animate-piece-move {
+    animation: pieceMove 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .animate-piece-capture {
+    animation: pieceCapture 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Responsive utilities */
+  .safe-padding-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  
+  .safe-padding-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  /* Touch-friendly tap targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Responsive text */
+  .text-responsive-sm {
+    @apply text-xs sm:text-sm;
+  }
+  
+  .text-responsive-base {
+    @apply text-sm sm:text-base;
+  }
+  
+  .text-responsive-lg {
+    @apply text-base sm:text-lg md:text-xl;
+  }
+  
+  .text-responsive-xl {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+  
+  .text-responsive-2xl {
+    @apply text-xl sm:text-2xl md:text-3xl;
+  }
+  
+  .text-responsive-3xl {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+  }
+  
+  .text-responsive-hero {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl;
+  }
+  
+  /* Hide on mobile utility */
+  .hide-mobile {
+    @apply hidden sm:block;
+  }
+  
+  .show-mobile-only {
+    @apply block sm:hidden;
+  }
+  
+  /* Prevent text overflow */
+  .text-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .text-clamp-2 {
+    -webkit-line-clamp: 2;
+  }
+  
+  .text-clamp-3 {
+    -webkit-line-clamp: 3;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.3); }
+  50% { box-shadow: 0 0 40px hsl(var(--primary) / 0.6); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Custom scrollbar - smaller on mobile */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+@media (min-width: 640px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.5);
+}
+
+/* Mobile safe area for notched phones */
+@supports (padding: max(0px)) {
+  .safe-area-inset {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}

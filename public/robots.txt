@@ -1,0 +1,13 @@
+# ChessMaster - Play Chess Online Free
+# https://chessmasterss.vercel.app
+
+User-agent: *
+Allow: /
+
+
+
+# Sitemap location
+Sitemap: https://chessmasterss.vercel.app/sitemap.xml
+
+# Host
+Host: https://chessmasterss.vercel.app
