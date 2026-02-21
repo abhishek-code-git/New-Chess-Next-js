@@ -99,7 +99,7 @@ const Terms = () => {
               <section>
                 <h2 className="text-2xl font-bold text-foreground mb-4">7. Disclaimer of Warranties</h2>
                 <p className="text-lg leading-relaxed">
-                  ChessMaster is provided "as is" without warranties of any kind, either express or implied. 
+                  ChessMaster is provided &quot;as is&quot; without warranties of any kind, either express or implied. 
                   We do not guarantee that the service will be uninterrupted, error-free, or secure. Your use 
                   of the service is at your own risk.
                 </p>

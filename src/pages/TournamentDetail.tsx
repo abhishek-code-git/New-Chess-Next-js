@@ -434,7 +434,7 @@ export default function TournamentDetail({
                     </div>
                   ) : (
                     <p className="text-center text-muted-foreground py-8">
-                      Tournament hasn't started yet
+                      Tournament hasn&apos;t started yet
                     </p>
                   )}
                 </CardContent>

@@ -568,7 +568,7 @@ const PlayOnline: React.FC = () => {
                 ) : (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Opponent's turn
+                    Opponent&apos;s turn
                   </>
                 )}
               </span>
