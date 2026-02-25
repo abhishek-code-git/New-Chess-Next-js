@@ -120,7 +120,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("useAuth used without AuthProvider; falling back to guest state.");
+    }
+    return {
+      user: null,
+      session: null,
+      loading: true,
+      signUp: async () => ({ error: new Error("AuthProvider missing") }),
+      signIn: async () => ({ error: new Error("AuthProvider missing") }),
+      signOut: async () => {},
+    };
   }
   return context;
 };
